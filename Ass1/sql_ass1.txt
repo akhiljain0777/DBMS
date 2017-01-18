@@ -1,0 +1,145 @@
+create table conducted(cno varchar(15),type varchar(10));
+create table examination(type varchar(10),weightage int);
+create table Timings(day varchar(10),starttime varchar(10),endtime varchar(10),cno varchar(10),roomno varchar(10));
+create table classroom(Building varchar(10),roomno varchar(10),capacity int);
+create table teaches(cno varchar(10),tid varchar(10),regsem varchar(10));
+
+INSERT INTO Courses values("CS101","ML","CS",3);
+INSERT INTO Courses values("CS102","AI","CS",4);
+INSERT INTO Courses values("CS103","PDS","CS",4);
+INSERT INTO Courses values("CS104","ALGO","CS",4);
+INSERT INTO Courses values("CS105","DBMS","CS",5);
+
+insert into student values("14CS1","S1","CS",116);
+insert into student values("14CS2","S2","CS",117);
+insert into student values("14CS3","S3","CS",118);
+insert into student values("14CS4","S4","CS",114);
+insert into student values("14CS5","S5","CS",120);
+
+insert into teacher values("T01","AM","EE");
+insert into teacher values("T02","PG","CS");
+insert into teacher values("T03","PPC","CS");
+insert into teacher values("T04","PM","EC");
+insert into teacher values("T05","AG","CS");
+
+insert into teaches values("CS101","T03","Spr2017");
+insert into teaches values("CS102","T04","Aut2016");
+insert into teaches values("CS103","T01","Aut2016");
+insert into teaches values("CS104","T03","Aut2016");
+insert into teaches values("CS105","T03","Spr2017");
+
+insert into enrolled values("CS101","14CS1",94,"EX","Spr2017");
+insert into enrolled values("CS102","14CS1",83,"A","Aut2016");
+insert into enrolled values("CS102","14CS2",86,"A","Aut2016");
+insert into enrolled values("CS102","14CS3",65,"C","Aut2016");
+insert into enrolled values("CS102","14CS4",91,"EX","Aut2016");
+insert into enrolled values("CS102","14CS5",86,"A","Aut2016");
+insert into enrolled values("CS104","14CS4",93,"EX","Aut2016");
+insert into enrolled values("CS105","14CS5",95,"EX","Spr2017");
+insert into enrolled values("CS104","14CS2",99,"EX","Aut2016");
+insert into enrolled values("CS105","14CS1",78,"B","Spr2017");
+insert into enrolled values("CS101","14CS2",99,"EX","Spr2017");
+
+
+
+insert into classroom values("Nalanda","NC142",150);
+insert into classroom values("Nalanda","NR121",200);
+insert into classroom values("Main Building","F142",250);
+
+insert into Timings values("Mon","8.00am","10.00am","CS101","NC142");
+insert into Timings values("Wed","9.00am","10.00am","CS101","NC142");
+insert into Timings values("MON","10.00am","11.00am","CS102","F142");
+insert into Timings values("TUE","10.00am","12.00am","CS102","F142");
+insert into Timings values("MON","2.00pm","4.00am","CS103","F142");
+insert into Timings values("FRI","2.00pm","4.00am","CS103","F142");
+insert into Timings values("TUE","6.00pm","8.00pm","CS104","NC142");
+insert into Timings values("THURS","6.00pm","8.00pm","CS104","NC142");
+insert into Timings values("FRI","8.00am","10.00am","CS105","NC142");
+insert into Timings values("WES","7.30am","8.00am","CS105","NR121");
+
+
+
+1)
+	SELECT Courses.cno,Courses.Cname
+	FROM teaches,teacher,Courses 
+	WHERE teacher.name="PPC" AND teaches.tid=teacher.tid AND Courses.cno=teaches.cno;
+
+	Output:
+		+-------+-------+
+		| cno   | Cname |
+		+-------+-------+
+		| CS101 | ML    |
+		| CS104 | ALGO  |
+		| CS105 | DBMS  |
+		+-------+-------+
+
+
+2) 
+	SELECT DISTINCT student.sid,student.name 
+	FROM student,enrolled,teaches,teacher 
+	WHERE teacher.name="PPC" AND teacher.tid=teaches.tid AND teaches.cno=enrolled.cno AND enrolled.sid=student.sid;
+
+	Output: 
+		+-------+------+
+		| sid   | name |
+		+-------+------+
+		| 14CS2 | S2   |
+		| 14CS1 | S1   |
+		| 14CS4 | S4   |
+		| 14CS5 | S5   |
+		+-------+------+
+
+
+
+3)
+	SELECT Timings.day,Timings.starttime,Timings.endtime 
+	FROM Timings 
+	WHERE Timings.roomno="NC142";
+
+	Output:
+		+-------+-----------+---------+
+		| day   | starttime | endtime |
+		+-------+-----------+---------+
+		| Mon   | 8.00am    | 10.00am |
+		| Wed   | 9.00am    | 10.00am |
+		| TUE   | 6.00pm    | 8.00pm  |
+		| THURS | 6.00pm    | 8.00pm  |
+		| FRI   | 8.00am    | 10.00am |
+		+-------+-----------+---------+
+
+
+4)
+	SELECT student.name,enrolled.cno,enrolled.marks 
+	FROM (SELECT enrolled.cno,MAX(enrolled.marks) AS mark FROM enrolled,student,teacher,teaches WHERE teacher.name="PPC" AND teacher.tid=teaches.tid AND enrolled.sid=student.sid AND enrolled.cno=teaches.cno GROUP BY enrolled.cno) AS x,enrolled,student WHERE enrolled.marks=x.mark AND enrolled.cno=x.cno AND enrolled.sid=student.sid;
+
+
+	 Output:
+		+------+-------+-------+
+		| name | cno   | marks |
+		+------+-------+-------+
+		| S2   | CS101 |    99 |
+		| S1   | CS101 |    99 |
+		| S5   | CS105 |    95 |
+		| S2   | CS104 |    99 |
+		+------+-------+-------+
+
+
+
+
+
+
+5)
+	 SELECT tb2.sid,tb2.name
+	 FROM (SELECT tb1.sid,tb1.name,COUNT(tb1.grade) as cnt
+	       FROM (SELECT ALL student.sid,student.name,enrolled.grade FROM student,enrolled WHERE enrolled.grade="EX" AND enrolled.sid=student.sid) as tb1
+           GROUP BY tb1.sid) as tb2
+
+     WHERE tb2.cnt>=(SELECT MAX(tb2_.cnt2)  FROM (SELECT tb1_.sid,COUNT(tb1_.grade) as cnt2       FROM (SELECT ALL student.sid,enrolled.grade FROM student,enrolled WHERE enrolled.grade="EX" AND enrolled.sid=student.sid) as tb1_            GROUP BY tb1_.sid) as tb2_);
+
+	Output:
+		+-------+------+
+		| sid   | name |
+		+-------+------+
+		| 14CS2 | S2   |
+		| 14CS4 | S4   |
+		+-------+------+
