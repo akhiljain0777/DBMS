@@ -1,3 +1,7 @@
+create table Courses(cno varchar(15),cname varchar(20),dept varchar(20),credits int);
+create table student(sid varchar(12),name varchar(20),dept varchar(20),total_cred int);
+create table teacher(tid varchar(15),name varchar(20),dept varchar(20));
+create table enrolled(cno varchar(15),sid varchar(15),marks int,grade varchar(5),regsem varchar(15));
 create table conducted(cno varchar(15),type varchar(10));
 create table examination(type varchar(10),weightage int);
 create table Timings(day varchar(10),starttime varchar(10),endtime varchar(10),cno varchar(10),roomno varchar(10));
@@ -28,7 +32,7 @@ insert into teaches values("CS103","T01","Aut2016");
 insert into teaches values("CS104","T03","Aut2016");
 insert into teaches values("CS105","T03","Spr2017");
 
-insert into enrolled values("CS101","14CS1",94,"EX","Spr2017");
+insert into enrolled values("CS101","14CS1",99,"EX","Spr2017");
 insert into enrolled values("CS102","14CS1",83,"A","Aut2016");
 insert into enrolled values("CS102","14CS2",86,"A","Aut2016");
 insert into enrolled values("CS102","14CS3",65,"C","Aut2016");
@@ -83,11 +87,12 @@ insert into Timings values("WES","7.30am","8.00am","CS105","NR121");
 		+-------+------+
 		| sid   | name |
 		+-------+------+
-		| 14CS2 | S2   |
 		| 14CS1 | S1   |
 		| 14CS4 | S4   |
 		| 14CS5 | S5   |
+		| 14CS2 | S2   |
 		+-------+------+
+
 
 
 
@@ -117,11 +122,12 @@ insert into Timings values("WES","7.30am","8.00am","CS105","NR121");
 		+------+-------+-------+
 		| name | cno   | marks |
 		+------+-------+-------+
-		| S2   | CS101 |    99 |
 		| S1   | CS101 |    99 |
 		| S5   | CS105 |    95 |
 		| S2   | CS104 |    99 |
+		| S2   | CS101 |    99 |
 		+------+-------+-------+
+
 
 
 
