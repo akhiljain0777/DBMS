@@ -1,0 +1,75 @@
+1) 
+	Mysqldb and python must be installed.
+    sudo apt-get install python-sqldb
+
+
+Output:
+
+i. List all the Courses taught by the teacher - "PPC".
+
+
++-------+-------+
+| cno   | Cname |
++-------+-------+
+| CS101 | ML    |
+| CS104 | ALGO  |
+| CS105 | DBMS  |
++-------+-------+
+
+ii. List all students registered in the courses taught by "PPC".
+
+
++-------+------+
+| sid   | name |
++-------+------+
+| 14CS1 | S1   |
+| 14CS4 | S4   |
+| 14CS5 | S5   |
+| 14CS2 | S2   |
++-------+------+
+
+ii. List all students registered in the courses taught by "PPC".
+
+
++-------+------+
+| sid   | name |
++-------+------+
+| 14CS1 | S1   |
+| 14CS4 | S4   |
+| 14CS5 | S5   |
+| 14CS2 | S2   |
++-------+------+
+
+iii. List the timings of all courses in Class-Room "NC142".
+
+
++-------+-----------+---------+
+| day   | starttime | endtime |
++-------+-----------+---------+
+| Mon   | 8.00am    | 10.00am |
+| Wed   | 9.00am    | 10.00am |
+| TUE   | 6.00pm    | 8.00pm  |
+| THURS | 6.00pm    | 8.00pm  |
+| FRI   | 8.00am    | 10.00am |
++-------+-----------+---------+
+
+iv. List the name of the students who received the highest marks in the courses taught by "PPC"
+
+
++------+-------+-------+
+| name | cno   | marks |
++------+-------+-------+
+| S1   | CS101 | 99    |
+| S5   | CS105 | 95    |
+| S2   | CS104 | 99    |
+| S2   | CS101 | 99    |
++------+-------+-------+
+v. List the students who have received a grade of "EX" in the largest number of courses"
+
+
++-------+------+
+| sid   | name |
++-------+------+
+| 14CS2 | S2   |
+| 14CS4 | S4   |
++-------+------+
